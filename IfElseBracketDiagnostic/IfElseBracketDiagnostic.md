@@ -2,24 +2,24 @@
 
 1. Opprett et nytt C#-prosjekt i VS2015. Bruk templaten "Diagnostic with Code Fix" som ligger under Extensibility. Kall prosjektet "IfElseBracketDiagnostic".
 
-   Prosjektet du nå har opprettet er et eksempelprosjekt som gir en warning hvis en property er skrevet med små bokstaver. Prosjektet inneholder også en fiks som endrer propertien til å ha store bokstaver.  
+   Prosjektet du nÃ¥ har opprettet er et eksempelprosjekt som gir en warning hvis en property er skrevet med smÃ¥ bokstaver. Prosjektet inneholder ogsÃ¥ en fiks som endrer propertien til Ã¥ ha store bokstaver.  
 
-   Vi skal skrive om prosjektet til å gi en warning hvis man ikke innkapsulerer if- og else-statements i curly brackets, og en fiks som gjør dette for deg.
+   Vi skal skrive om prosjektet til Ã¥ gi en warning hvis man ikke innkapsulerer if- og else-statements i curly brackets, og en fiks som gjÃ¸r dette for deg.
 
-2. Åpne DiagnosticAnalyzer.cs. Endre strengene Title, MessageFormat og Category til noe mer passende, f.eks. henholdsvis "If and else statements must use braces", "'{0}' statements must have braces" og "Formatting".
+2. Ã…pne DiagnosticAnalyzer.cs. Endre strengene Title, MessageFormat og Category til noe mer passende, f.eks. henholdsvis "If and else statements must use braces", "'{0}' statements must have braces" og "Formatting".
 
-3. Fjern innholdet i Initialize-metoden og erstatt det med følgende linje:
+3. Fjern innholdet i Initialize-metoden og erstatt det med fÃ¸lgende linje:
 
-    context.RegisterSyntaxNodeAction(AnalyzeIfElseStatement, SyntaxKind.IfStatement, SyntaxKind.ElseClause);
+       context.RegisterSyntaxNodeAction(AnalyzeIfElseStatement, SyntaxKind.IfStatement, SyntaxKind.ElseClause);
 
-4. Fjern AnalyzeSymbol-metoden og lag følgende metode i stedet:
+4. Fjern AnalyzeSymbol-metoden og lag fÃ¸lgende metode i stedet:
 
     private static void AnalyzeIfElseStatement(SyntaxNodeAnalysisContext context)
     {
        // TODO: Implement
     }
 
-5. I metoden sjekker vi om noden er en if-statement, og om den i så fall ikke er en blokk, altså mangler curly brackets. Hvis dette er tilfellet kaller vi ReportDiagnostic.
+5. I metoden sjekker vi om noden er en if-statement, og om den i sÃ¥ fall ikke er en blokk, altsÃ¥ mangler curly brackets. Hvis dette er tilfellet kaller vi ReportDiagnostic.
 
     var ifStatement = context.Node as IfStatementSyntax;
     
@@ -31,7 +31,7 @@
         context.ReportDiagnostic(diagnostic);
     }
 
-6. I samme metode gjør vi tilsvarende med else
+6. I samme metode gjÃ¸r vi tilsvarende med else
 
     var elseSyntax = context.Node as ElseClauseSyntax;
     
@@ -46,9 +46,9 @@
 
 7. Klikk "Start" eller F5. Dette vil starte en ny instans av Visual Studio. Opprett en ny Console Application og skriv en if-statement uten curly brackets i Main-metoden. Dette skal gi en warning.
 
-8. Avslutt den nye instansen av Visual Studio og åpne CodeFixProvider.cs.
+8. Avslutt den nye instansen av Visual Studio og Ã¥pne CodeFixProvider.cs.
 
-9. Bytt ut innholdet i ComputeFixesAsync med følgende kode:
+9. Bytt ut innholdet i ComputeFixesAsync med fÃ¸lgende kode:
 
     var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
     var diagnostic = context.Diagnostics.First();
@@ -62,7 +62,7 @@
         CodeAction.Create("Add brackets", c => AddBracesAsync(context.Document, errorToken, c)),
         diagnostic);
 
-10. Slett MakeUppercaseAsync og opprett følgende metode i stedet:
+10. Slett MakeUppercaseAsync og opprett fÃ¸lgende metode i stedet:
 
     private async Task<Document> AddBracketsAsync(Document document, SyntaxNode errorStatement, CancellationToken cancellationToken)
     {
@@ -94,6 +94,6 @@
         }
     }
 
-   Her oppretter vi nye if- eller else-statements med curly brackets og legger det på dokumentet.
+   Her oppretter vi nye if- eller else-statements med curly brackets og legger det pÃ¥ dokumentet.
 
-11. Start løsningen igjen og opprett en ny Console Application. Skriv en if-else-statement uten brackets og klikk på lyspæren som dukker opp ved siden av warningen. Du skal nå kunne velge "Add brackets".
+11. Start lÃ¸sningen igjen og opprett en ny Console Application. Skriv en if-else-statement uten brackets og klikk pÃ¥ lyspÃ¦ren som dukker opp ved siden av warningen. Du skal nÃ¥ kunne velge "Add brackets".
