@@ -10,7 +10,9 @@
 
 3. Fjern innholdet i Initialize-metoden og erstatt det med følgende linje:
 
-       context.RegisterSyntaxNodeAction(AnalyzeIfElseStatement, SyntaxKind.IfStatement, SyntaxKind.ElseClause);
+
+    context.RegisterSyntaxNodeAction(AnalyzeIfElseStatement, SyntaxKind.IfStatement, SyntaxKind.ElseClause);
+
 
 4. Fjern AnalyzeSymbol-metoden og lag følgende metode i stedet:
 
