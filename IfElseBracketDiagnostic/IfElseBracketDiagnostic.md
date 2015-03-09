@@ -59,7 +59,7 @@
           
           // Register a code action that will invoke the fix.
           context.RegisterFix(
-              CodeAction.Create("Add brackets", c => AddBracesAsync(context.Document, errorToken, c)),
+              CodeAction.Create("Add brackets", c => AddBracketsAsync(context.Document, errorToken, c)),
               diagnostic);
 
 10. Slett MakeUppercaseAsync og opprett følgende metode i stedet:
